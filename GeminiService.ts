@@ -2,34 +2,34 @@
 import { GoogleGenAI } from "@google/genai";
 import { CardData } from "./types";
 
-const SPECIFIC_QUESTIONS_MAP: Record<number, string> = {
-  0: "ρώτησε το έργο που βλέπεις 'τι θέλεις';",
-  1: "μπορείς να περιγράψεις τι βλέπεις;",
-  2: "τι είναι αυτό που σου κάνει εντύπωση",
-  3: "Τι είναι αυτό που σου αρέσει περισσότερο σε αυτό που βλέπεις",
-  4: "Τι θέλεις να μάθεις για το περιεχόμενο του έργου που βλέπεις;",
-  5: "Ποιά μορφή, σχήμα, χρώμα νομίζεις ότι σου απευθύνεται;",
-  6: "Τι νομίζεις ότι θέλει να σου πει ο καλλιτέχνης;",
-  7: "Μπορείς να βρεις ένα τίτλο δικό σου για το έργο;",
-  8: "Αν σου ζητούσαν να αφαιρέσεις κάτι από το έργο, τι θα αφαιρούσες;",
-  9: "Αν σου ζητούσαν να προσθέσεις κάτι στο έργο, τι θα πρόσθετες;",
-  10: "Αν βρισκόσουν μέσα στο έργο τι θέση θα έπαιρνες; κοντά σε ποιό πρόσωπο, κοντά σε ποιό σχήμα, κοντά σε ποιό χρώμα;",
-  11: "Ποιό ερώτημα ή σκέψη νομίζεις ότι δημιουργεί το έργο που είναι το ίδιο από τότε που δημιουργήθηκε έως σήμερα;",
-  12: "Αν αυτό το έργο είχε φωνή τι θα έλεγε; Θα το φώναζε ή θα το ψυθίριζε;",
-  13: "Με ποιό επίθετο θα χαρακτήριζες το έργο: σκληρό, μαλακό, επιθετικό, καθησυχαστικό.",
-  14: "Ποιό στοιχείο του έργου σου δημιουργεί την αίσθηση ότι εκεί ο χρόνος πάγωσε;",
-  15: "Με ποιό γεγονός της σύγχρονης ζωής θα συνέδεες μεταφορικά αυτό που βλέπεις;",
-  16: "Αν κλείσεις τα μάτια τι θυμάσαι από το έργο, ποιό στοιχείο του παραμένει;",
-  17: "Αν εκτυλισσόταν στο χρόνο αυτό που βλέπεις τι θα ακολουθούσε;",
-  18: "αν το έργο είχε μουσική υπόκρουση θα του ταίριαζε μελωδικός ήχος ή ήχος με ένταση;",
-  19: "τι θα ήθελες να ρωτήσεις τον καλλιτέχνη αν τον είχες μπροστά σου;"
-};
+const QUESTIONS = [
+  "ρώτησε το έργο που βλέπεις 'τι θέλεις';",
+  "μπορείς να περιγράψεις τι βλέπεις;",
+  "τι είναι αυτό που σου κάνει εντύπωση",
+  "Τι είναι αυτό που σου αρέσει περισσότερο σε αυτό που βλέπεις",
+  "Τι θέλεις να μάθεις για το περιεχόμενο του έργου που βλέπεις;",
+  "Ποιά μορφή, σχήμα, χρώμα νομίζεις ότι σου απευθύνεται;",
+  "Τι νομίζεις ότι θέλει να σου πει ο καλλιτέχνης;",
+  "Μπορείς να βρεις ένα τίτλο δικό σου για το έργο;",
+  "Αν σου ζητούσαν να αφαιρέσεις κάτι από το έργο, τι θα αφαιρούσες;",
+  "Αν σου ζητούσαν να προσθέσεις κάτι στο έργο, τι θα πρόσθετες;",
+  "Αν βρισκόσουν μέσα στο έργο τι θέση θα έπαιρνες;",
+  "Ποιό ερώτημα νομίζεις ότι δημιουργεί το έργο;",
+  "Αν αυτό το έργο είχε φωνή τι θα έλεγε;",
+  "Με ποιό επίθετο θα χαρακτήριζες το έργο;",
+  "Ποιό στοιχείο του έργου παγώνει τον χρόνο;",
+  "Με ποιό γεγονός της ζωής θα το συνέδεες;",
+  "Αν κλείσεις τα μάτια τι θυμάσαι;",
+  "Τι θα ακολουθούσε αν ο χρόνος κυλούσε;",
+  "Τι μουσική θα του ταίριαζε;",
+  "Τι θα ρωτούσες τον καλλιτέχνη;"
+];
 
 export const generateCardContent = async (): Promise<CardData[]> => {
-  return Array.from({ length: 20 }, (_, i) => ({
+  return QUESTIONS.map((q, i) => ({
     id: `card-${i}`,
-    question: SPECIFIC_QUESTIONS_MAP[i],
-    category: "Τέχνη & Στοχασμός"
+    question: q,
+    category: "Art"
   }));
 };
 
@@ -38,26 +38,18 @@ export const generateAIImage = async (prompt: string): Promise<string> => {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
-      contents: {
-        parts: [
-          { text: `Create a cinematic, museum-quality art visualization of this thought: "${prompt}". Style: Philosophical expressionism, ethereal atmosphere, masterfully lit, textured oil painting meets modern digital art. Avoid text in the image.` }
-        ]
+      contents: { 
+        parts: [{ text: `High-end philosophical abstract art, museum quality lighting, visual representation of: ${prompt}` }] 
       },
-      config: {
-        imageConfig: {
-          aspectRatio: "3:4"
-        }
-      }
+      config: { imageConfig: { aspectRatio: "3:4" } }
     });
-
+    
     for (const part of response.candidates?.[0]?.content?.parts || []) {
-      if (part.inlineData) {
-        return `data:image/png;base64,${part.inlineData.data}`;
-      }
+      if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
     }
-    throw new Error("No image data received");
-  } catch (error) {
-    console.error("Image generation failed:", error);
-    return `https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=800`;
+    return "https://images.unsplash.com/photo-1549490349-8643362247b5";
+  } catch (err) {
+    return "https://images.unsplash.com/photo-1549490349-8643362247b5";
   }
 };
+
