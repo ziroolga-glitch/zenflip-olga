@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { CardData, CardSide } from './types';
 import { generateAIImage } from './geminiService';
@@ -34,9 +32,14 @@ const FlipCard: React.FC<FlipCardProps> = ({ card, index }) => {
     setSide(CardSide.IMAGE);
     if (!generatedImageUrl && !isGenerating) {
       setIsGenerating(true);
-      const url = await generateAIImage(card.question);
-      setGeneratedImageUrl(url);
-      setIsGenerating(false);
+      try {
+        const url = await generateAIImage(card.question);
+        setGeneratedImageUrl(url);
+      } catch (err) {
+        console.error("AI Generation Error", err);
+      } finally {
+        setIsGenerating(false);
+      }
     }
   };
 
@@ -124,7 +127,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ card, index }) => {
           ) : (
             <>
               <img 
-                src={generatedImageUrl || ''} 
+                src={generatedImageUrl || 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&q=80&w=800'} 
                 className="w-full h-full object-cover opacity-80 transition-opacity duration-1000" 
                 alt="AI Generated Art"
               />
