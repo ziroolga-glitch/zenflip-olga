@@ -37,7 +37,7 @@ const App: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-blue-500/50 text-[10px] uppercase tracking-[0.5em]">Φόρτωση</span>
+            <span className="text-blue-500/50 text-[10px] uppercase tracking-[0.5em]">Προετοιμασία</span>
           </div>
         ) : (
           <Deck cards={cards} />
@@ -50,9 +50,6 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
-
 
 export default App;
 
