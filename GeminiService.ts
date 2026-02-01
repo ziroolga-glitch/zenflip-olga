@@ -2,7 +2,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { CardData } from "./types";
 
-const QUESTIONS = [
+const SPECIFIC_QUESTIONS = [
   "ρώτησε το έργο που βλέπεις 'τι θέλεις';",
   "μπορείς να περιγράψεις τι βλέπεις;",
   "τι είναι αυτό που σου κάνει εντύπωση",
@@ -26,7 +26,7 @@ const QUESTIONS = [
 ];
 
 export const generateCardContent = async (): Promise<CardData[]> => {
-  return QUESTIONS.map((q, i) => ({
+  return SPECIFIC_QUESTIONS.map((q, i) => ({
     id: `card-${i}`,
     question: q,
     category: "Art"
@@ -39,7 +39,7 @@ export const generateAIImage = async (prompt: string): Promise<string> => {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: { 
-        parts: [{ text: `High-end philosophical abstract art, museum quality lighting, visual representation of: ${prompt}` }] 
+        parts: [{ text: `Ethereal abstract art, museum quality, representing the concept: ${prompt}` }] 
       },
       config: { imageConfig: { aspectRatio: "3:4" } }
     });
@@ -52,4 +52,5 @@ export const generateAIImage = async (prompt: string): Promise<string> => {
     return "https://images.unsplash.com/photo-1549490349-8643362247b5";
   }
 };
+
 
