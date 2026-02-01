@@ -29,7 +29,7 @@ const Deck: React.FC<DeckProps> = ({ cards }) => {
   return (
     <div 
       ref={scrollRef}
-      className="flex overflow-x-auto gap-8 no-scrollbar px-[15vw] py-10 touch-pan-x"
+      className="flex overflow-x-auto gap-10 no-scrollbar px-[10vw] py-10 touch-pan-x"
     >
       {displayCards.map((card, idx) => (
         <div key={`${card.id}-${idx}`} className="flex-shrink-0">
@@ -42,5 +42,4 @@ const Deck: React.FC<DeckProps> = ({ cards }) => {
 
 export default Deck;
 
-export default Deck;
 
