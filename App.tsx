@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Deck from './Deck';
 import { CardData } from './types';
@@ -10,9 +9,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      const data = await generateCardContent();
-      setCards(data);
-      setTimeout(() => setLoading(false), 1200);
+      try {
+        const data = await generateCardContent();
+        setCards(data);
+      } catch (error) {
+        console.error("Failed to load cards", error);
+      } finally {
+        setTimeout(() => setLoading(false), 1200);
+      }
     };
     init();
   }, []);
