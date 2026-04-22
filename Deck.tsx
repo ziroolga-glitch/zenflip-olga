@@ -1,4 +1,3 @@
-
 import React from 'react';
 import FlipCard from './FlipCard';
 import { CardData } from './types';
@@ -9,11 +8,10 @@ interface DeckProps {
 
 const Deck: React.FC<DeckProps> = ({ cards }) => {
   return (
-    /* Προσθέτουμε snap-x snap-mandatory για το κεντράρισμα */
-    <div className="w-full h-full overflow-x-auto scrollbar-hide snap-x snap-mandatory flex items-center gap-8 px-[10vw]">
+    /* Προσθέσαμε -webkit-overflow-scrolling και snap-align για μέγιστη συμβατότητα */
+    <div className="w-full h-screen overflow-x-auto overflow-y-hidden snap-x snap-mandatory flex items-center gap-4 px-[10vw] scroll-smooth" style={{ WebkitOverflowScrolling: 'touch' }}>
       {cards.map((card, index) => (
-        /* Κάθε κάρτα γίνεται snap-center */
-        <div key={card.id} className="snap-center shrink-0">
+        <div key={card.id} className="snap-center shrink-0 w-full flex justify-center items-center">
           <FlipCard card={card} index={index} />
         </div>
       ))}
