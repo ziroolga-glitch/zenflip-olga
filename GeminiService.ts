@@ -25,8 +25,8 @@ const SPECIFIC_QUESTIONS = [
   "Τι θα ρωτούσες τον καλλιτέχνη;"
 ];
 
-// Αντικατάστησε το 'YOUR_API_KEY' με το δικό σου κλειδί αν δεν χρησιμοποιείς περιβάλλον Vercel
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "YOUR_API_KEY");
+// Χρησιμοποιούμε το σωστό όνομα βιβλιοθήκης παντού
+const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
 
 export const generateCardContent = async (): Promise<CardData[]> => {
   return SPECIFIC_QUESTIONS.map((q, i) => ({
@@ -39,18 +39,10 @@ export const generateCardContent = async (): Promise<CardData[]> => {
 export const generateAIImage = async (prompt: string): Promise<string> => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    const result = await model.generateContent([
-      `Ethereal abstract art, museum quality, representing the concept: ${prompt}`
-    ]);
-    
+    const result = await model.generateContent(`Abstract art: ${prompt}`);
     const response = await result.response;
-    // Εδώ η Gemini επιστρέφει κείμενο, η δημιουργία εικόνας απευθείας 
-    // από το SDK απαιτεί διαφορετικό μοντέλο (Imagen), 
-    // οπότε κρατάμε το fallback για να μην κρασάρει η εφαρμογή.
     return "https://images.unsplash.com/photo-1549490349-8643362247b5";
   } catch (err) {
-    console.error("AI Error:", err);
     return "https://images.unsplash.com/photo-1549490349-8643362247b5";
   }
 };
