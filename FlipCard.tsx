@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { CardData, CardSide } from './types';
-import { generateAIImage } from './geminiService';
+import { generateAIImage } from './AiService';
 
 interface FlipCardProps {
   card: CardData;
