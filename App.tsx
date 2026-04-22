@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Deck from './Deck';
 import { CardData } from './types';
-// Χρησιμοποιούμε το GeminiService.ts (σιγουρέψου ότι το αρχείο σου λέγεται έτσι ακριβώς)
-import { generateCardContent } from './GeminiService';
+import { generateCardContent } from './AiService';
 
 const App: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
@@ -37,7 +36,7 @@ const App: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-blue-500/50 text-[10px] uppercase tracking-[0.5em]">Προετοιμασία</span>
+            <span className="text-blue-500/50 text-[10px] uppercase tracking-[0.5em]">Loading</span>
           </div>
         ) : (
           <Deck cards={cards} />
@@ -52,4 +51,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
