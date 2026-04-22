@@ -26,7 +26,7 @@ const SPECIFIC_QUESTIONS = [
 ];
 
 // Χρησιμοποιούμε το σωστό όνομα βιβλιοθήκης παντού
-const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const genAI = new GoogleGenerativeAI("AIzaSyDtw9J5LslyiIoP0e8biVyn5uVeJDxrjkk");
 
 export const generateCardContent = async (): Promise<CardData[]> => {
   return SPECIFIC_QUESTIONS.map((q, i) => ({
