@@ -21,7 +21,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ card, index }) => {
           setIsFlipped(false);
         }
       },
-      { threshold: 0.1 } // Αν χαθεί το 90% της κάρτας, γυρίζει πίσω
+    { threshold: 0.5 } // Αν χαθεί το 90% της κάρτας, γυρίζει πίσω
     );
 
     if (cardRef.current) observer.observe(cardRef.current);
