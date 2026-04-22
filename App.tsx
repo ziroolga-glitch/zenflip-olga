@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Deck from './Deck';
 import { CardData } from './types';
-import { generateCardContent } from './geminiService';
+import { generateCardContent } from './GeminiService';
 
 const App: React.FC = () => {
   const [cards, setCards] = useState<CardData[]>([]);
