@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import Deck from './Deck';
 import { CardData } from './types';
+// Χρησιμοποιούμε το GeminiService.ts (σιγουρέψου ότι το αρχείο σου λέγεται έτσι ακριβώς)
 import { generateCardContent } from './GeminiService';
 
 const App: React.FC = () => {
@@ -12,7 +12,7 @@ const App: React.FC = () => {
     const init = async () => {
       try {
         const data = await generateCardContent();
-        setCards(data);
+        setCards(data || []);
       } catch (err) {
         console.error("Init error:", err);
       } finally {
